@@ -6,7 +6,7 @@ from io import BytesIO
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
-TOKEN = "7516624385:AAHs8jWuBOQPKnZRU2kpGKkun46GlbXCPyQ"  # Replace with your actual bot token
+TOKEN = os.getenv("BOT_TOKEN") # Replace with your actual bot token
 
 # Function to extract the correct TeraBox ID
 def extract_terabox_id(url):
