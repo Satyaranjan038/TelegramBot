@@ -8,6 +8,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 
 TOKEN = os.getenv("BOT_TOKEN") # Replace with your actual bot token
 
+
 # Function to extract the correct TeraBox ID
 def extract_terabox_id(url):
     parsed_url = urllib.parse.urlparse(url)
