@@ -52,7 +52,7 @@ async def start(update: Update, context: CallbackContext):
 async def handle_message(update: Update, context: CallbackContext):
     message_text = update.message.text.strip()
 
-    if "terabox.com" in message_text or "teraboxdownloader.pro" in message_text or "terasharelink.com" in message_text:
+    if "terabox.com" in message_text or "teraboxdownloader.pro" in message_text or "terasharelink.com" in message_text or "terafileshare.com" in message_text or "tera" in message_text:
         direct_link, video_id = get_direct_video_link(message_text)
 
         if direct_link:
@@ -83,7 +83,7 @@ def main():
     # Start the bot
     print("Bot is running...")
     app.run_polling()
-    
+
 
 if __name__ == "__main__":
     asyncio.run(main())
