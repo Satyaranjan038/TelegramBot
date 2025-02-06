@@ -2,6 +2,7 @@ import re
 import os
 import urllib.parse
 import requests
+import asyncio
 from io import BytesIO
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
@@ -84,4 +85,4 @@ def main():
     app.run_polling()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
