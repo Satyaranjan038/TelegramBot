@@ -8,7 +8,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
 #TOKEN = os.getenv("BOT_TOKEN") # Replace with your actual bot token
-TOKEN = '7206181535:AAHF1-35gJu1Lgf0hzybN8GQ_4CCGxotMbU'
+TOKEN = os.getenv("BOT_TOKEN") 
 
 
 # Function to extract the correct TeraBox ID
