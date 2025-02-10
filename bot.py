@@ -7,7 +7,8 @@ from io import BytesIO
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
-TOKEN = os.getenv("BOT_TOKEN") # Replace with your actual bot token
+#TOKEN = os.getenv("BOT_TOKEN") # Replace with your actual bot token
+TOKEN = '7206181535:AAHF1-35gJu1Lgf0hzybN8GQ_4CCGxotMbU'
 
 
 # Function to extract the correct TeraBox ID
@@ -43,6 +44,10 @@ def download_image(url):
     except Exception as e:
         print(f"Error downloading image: {e}")
     return None  # Return None if failed
+def escape_markdown(text):
+    """Escapes special characters in MarkdownV2 formatting"""
+    escape_chars = r"_*[]()~`>#+-=|{}.!"
+    return "".join("\\" + char if char in escape_chars else char for char in text)
 
 # Command to start the bot
 async def start(update: Update, context: CallbackContext):
@@ -60,11 +65,12 @@ async def handle_message(update: Update, context: CallbackContext):
 
             keyboard = [[InlineKeyboardButton("🎬 Play Online", url=stream_link)]]
             reply_markup = InlineKeyboardMarkup(keyboard)
+            escaped_text = escape_markdown(f"🎥 **Stream Video Online:**\n{stream_link}")
 
             await update.message.reply_text(
-                f"🎥 **Stream Video Online:**\n{stream_link}",
+                escaped_text,
                 reply_markup=reply_markup,
-                parse_mode="Markdown"
+                parse_mode="MarkdownV2"
             )
         else:
             await update.message.reply_text("❌ Invalid TeraBox link. Please check and try again.")
