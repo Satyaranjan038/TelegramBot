@@ -2,7 +2,6 @@ import re
 import urllib.parse
 import logging
 import asyncio
-import requests
 import os
 from pymongo import MongoClient
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -22,18 +21,18 @@ logger = logging.getLogger(__name__)
 
 # Load environment variables
 TOKEN = os.getenv("BOT_TOKEN")  # Telegram Bot Token
-MONGO_USERNAME = os.getenv("MONGO_USERNAME", "").strip()  # Ensure it's a string
-MONGO_PASSWORD = os.getenv("MONGO_PASSWORD", "").strip()  # Ensure it's a string
+# MONGO_USERNAME = os.getenv("MONGO_USERNAME")
+# MONGO_PASSWORD = os.getenv("MONGO_PASSWORD")
 # Telegram Bot Token
-response = requests.get("https://api64.ipify.org?format=json")
-print("Server Public IP:", response.json()["ip"])
+print(TOKEN)
+
+# MongoDB Credentials
+MONGO_USERNAME = 'satyaranjanparida038'
+MONGO_PASSWORD = 'te8aFRXE6m4SqY7y'
 
 # URL encode MongoDB credentials
-if not MONGO_USERNAME or not MONGO_PASSWORD:
-    raise ValueError("MongoDB credentials are missing! Check environment variables.")
-
-encoded_username = urllib.parse.quote_plus(str(MONGO_USERNAME))
-encoded_password = urllib.parse.quote_plus(str(MONGO_PASSWORD))
+encoded_username = urllib.parse.quote_plus(MONGO_USERNAME)
+encoded_password = urllib.parse.quote_plus(MONGO_PASSWORD)
 MONGO_URI = f"mongodb+srv://{encoded_username}:{encoded_password}@cluster0.rzqy9ul.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 # Connect to MongoDB
