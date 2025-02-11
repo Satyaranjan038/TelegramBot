@@ -2,6 +2,7 @@ import re
 import urllib.parse
 import logging
 import asyncio
+import requests
 import os
 from pymongo import MongoClient
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -24,7 +25,8 @@ TOKEN = os.getenv("BOT_TOKEN")  # Telegram Bot Token
 MONGO_USERNAME = os.getenv("MONGO_USERNAME")
 MONGO_PASSWORD = os.getenv("MONGO_PASSWORD")
 # Telegram Bot Token
-
+response = requests.get("https://api64.ipify.org?format=json")
+print("Server Public IP:", response.json()["ip"])
 
 # URL encode MongoDB credentials
 encoded_username = urllib.parse.quote_plus(MONGO_USERNAME)
