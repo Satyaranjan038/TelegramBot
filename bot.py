@@ -128,23 +128,32 @@ async def button_handler(update: Update, context: CallbackContext):
     query = update.callback_query
     user_id = update.effective_user.id
 
+    print(f"Received button click from user: {user_id}")
+    
     try:
+        print(f"Query data received: {query.data}")
         action, video_id = query.data.split("_", 1)
+
+        print(f"Action: {action}, Video ID: {video_id}")
+
         stream_link_data = video_links_collection.find_one({"video_id": video_id})
         if not stream_link_data:
+            print("❌ Video not found in database.")
             await query.answer("❌ Error: Video not found in database.")
             return
 
         stream_link = stream_link_data["stream_link"]
+        print(f"Stream link found: {stream_link}")
 
         if action == "like":
-            # Check if the user has already liked the video
+            print("Checking if user already liked the video...")
             existing_like = likes_collection.find_one({"user_id": user_id, "video_id": video_id, "liked": True})
             if existing_like:
+                print("❌ User has already liked this video.")
                 await query.answer("❌ You have already liked this video.")
                 return
 
-            # Store the like if it's not already present
+            print("Storing like in database...")
             likes_collection.update_one(
                 {"user_id": user_id, "video_id": video_id},
                 {"$set": {"liked": True, "stream_link": stream_link}},
@@ -152,15 +161,17 @@ async def button_handler(update: Update, context: CallbackContext):
             )
             await query.answer("Liked! 👍")
             logger.info(f"✅ User {user_id} liked video {video_id}")
+            print(f"✅ User {user_id} liked video {video_id}")
 
         elif action == "favorite":
-            # Check if the user has already favorited the video
+            print("Checking if user already favorited the video...")
             existing_favorite = favorites_collection.find_one({"user_id": user_id, "video_id": video_id, "favorited": True})
             if existing_favorite:
+                print("❌ User has already added this video to favorites.")
                 await query.answer("❌ You have already added this video to favorites.")
                 return
 
-            # Store the favorite if it's not already present
+            print("Storing favorite in database...")
             favorites_collection.update_one(
                 {"user_id": user_id, "video_id": video_id},
                 {"$set": {"favorited": True, "stream_link": stream_link}},
@@ -168,12 +179,16 @@ async def button_handler(update: Update, context: CallbackContext):
             )
             await query.answer("Added to Favorites! ⭐")
             logger.info(f"✅ User {user_id} added video {video_id} to favorites")
+            print(f"✅ User {user_id} added video {video_id} to favorites")
 
         await query.edit_message_reply_markup(reply_markup=None)
+        print("✅ Reply markup removed successfully.")
 
     except Exception as e:
+        print(f"❌ Error processing button click: {e}")
         logger.error(f"❌ Error processing button click: {e}")
         await query.answer("Something went wrong. Please try again.")
+
 
 
 # /like command - Show liked videos
