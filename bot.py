@@ -22,15 +22,18 @@ logger = logging.getLogger(__name__)
 
 # Load environment variables
 TOKEN = os.getenv("BOT_TOKEN")  # Telegram Bot Token
-MONGO_USERNAME = os.getenv("MONGO_USERNAME")
-MONGO_PASSWORD = os.getenv("MONGO_PASSWORD")
+MONGO_USERNAME = os.getenv("MONGO_USERNAME", "").strip()  # Ensure it's a string
+MONGO_PASSWORD = os.getenv("MONGO_PASSWORD", "").strip()  # Ensure it's a string
 # Telegram Bot Token
 response = requests.get("https://api64.ipify.org?format=json")
 print("Server Public IP:", response.json()["ip"])
 
 # URL encode MongoDB credentials
-encoded_username = urllib.parse.quote_plus(MONGO_USERNAME)
-encoded_password = urllib.parse.quote_plus(MONGO_PASSWORD)
+if not MONGO_USERNAME or not MONGO_PASSWORD:
+    raise ValueError("MongoDB credentials are missing! Check environment variables.")
+
+encoded_username = urllib.parse.quote_plus(str(MONGO_USERNAME))
+encoded_password = urllib.parse.quote_plus(str(MONGO_PASSWORD))
 MONGO_URI = f"mongodb+srv://{encoded_username}:{encoded_password}@cluster0.rzqy9ul.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 # Connect to MongoDB
