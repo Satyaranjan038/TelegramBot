@@ -91,7 +91,7 @@ async def handle_message(update: Update, context: CallbackContext):
     if any(domain in message_text for domain in ["terabox.com", "teraboxdownloader.pro", "terasharelink.com", "terafileshare.com"]):
         direct_link, video_id = get_direct_video_link(message_text)
         if direct_link:
-            stream_link = direct_link
+            stream_link = "https://www.ktnetwork.in.net/2024/08/terabox-tech.html?q="+message_text ; 
             keyboard = [
                 [InlineKeyboardButton("🎬 Play Online", url=stream_link)],
                 [InlineKeyboardButton("👍 Like", callback_data=f"like_{video_id}"),
